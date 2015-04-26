@@ -12,6 +12,8 @@
 
 using namespace std;
 
+//Check README for general descriptions of functions.
+
 Bracket::Bracket(int Teams)
 {
     srand (time(NULL));
@@ -24,6 +26,7 @@ Bracket::Bracket(int Teams)
     BFCreateMatches(numMatches, FinalsRound);
     teamPlacementNoNames();
 }
+
 Bracket::Bracket(int Teams, string fileName)
 {
     srand (time(NULL));
@@ -51,10 +54,10 @@ void Bracket::UpdateWins()
     for(int i = 0; i < matches.size(); i++)
     {
         if(matches[i]->round == currentRound and matches[i]->winnerDeclared == false)
-        {
-            if(matches[i]->leftTeam == NULL)//First, update All rounds that don't have Opponents.
+        {//only updates rounds where the winner hasn't already been declared and are part of the current round
+            if(matches[i]->leftTeam == NULL)//First, update matches that don't have Opponents.
             {
-                matches[i]->Winner = matches[i]->rightTeam;
+                matches[i]->Winner = matches[i]->rightTeam; //winner is auto set, and placed in the corresponding spot in the next match.
                 matches[i]->winnerDeclared = true;
                 if(matches[i]->rightTeam != NULL)
                 {
@@ -69,7 +72,7 @@ void Bracket::UpdateWins()
                         matches[i]->winnerMatch->rightTeam = matches[i]->Winner;
                     }
                 }
-            }else if(matches[i]->rightTeam == NULL){
+            }else if(matches[i]->rightTeam == NULL){ //Same as previous if but right side instead of left.
                 matches[i]->Winner = matches[i]->leftTeam;
                 matches[i]->winnerDeclared = true;
                 matches[i]->leftTeam->currentMatch = matches[i]->winnerMatch;
@@ -82,10 +85,10 @@ void Bracket::UpdateWins()
                         matches[i]->winnerMatch->rightTeam = matches[i]->Winner;
                     }
                 }
-            }else if(matches[i]->Winner != NULL){
+            }else if(matches[i]->Winner != NULL){//If both teams exist, set the "Winner as declared" and update the next match.
                 matches[i]->winnerDeclared = true;
                 matches[i]->Winner->currentMatch = matches[i]->winnerMatch;
-                if(matches[i]->winnerMatch!= NULL)
+                if(matches[i]->winnerMatch!= NULL) //Place in corresponding spot
                 {
                     if(matches[i]->winnerMatch->leftMatch == matches[i])
                     {
@@ -99,12 +102,12 @@ void Bracket::UpdateWins()
         }
     }
     if(nextRound == true)
-    {
+    {//If every match in the round has a winner declared, we can go to the next round.
         currentRound++;
         cout << "Round Finished! Moving to Round: " << currentRound << endl;
     }
     if(Finals->Winner != NULL)
-    {
+    { // If the Finals have a winner, all matches have been completed.
         cout << "We have a winner! Team: " << Finals->Winner->teamName;
     }
 }
@@ -112,7 +115,7 @@ void Bracket::UpdateWins()
 void Bracket::declareWinner(string teamName)
 {
     int teamNumber = -1;
-    for(int i = 0; i < teams.size(); i++)
+    for(int i = 0; i < teams.size(); i++)//Search the teams for the selected team
     {
         if(teams[i]->teamName == teamName)
         {
@@ -120,6 +123,8 @@ void Bracket::declareWinner(string teamName)
             break;
         }
     }
+    
+    //Either Declare the found team the winner of their current match or return an error.
     if(teamNumber == -1)
     {
         cout << "Team " << teamName << " not found. Check spelling and retry." << endl;
@@ -133,6 +138,7 @@ void Bracket::declareWinner(string teamName)
 
 void Bracket::renameTeam(string teamName, string newName)
 {
+    //Works almost exactly the same as the above, except it renames the current match.
     int teamNumber = -1;
     for(int i = 0; i < teams.size(); i++)
     {
@@ -267,7 +273,7 @@ void Bracket::RandomizeStartingPositions()
     team* Placeholder = NULL;
     matchData* matchPlaceholder = NULL;
     for(int i = 0; i < numTeams; i++)
-    {
+    { //Performs "Swaps" between random teams. doing it as mean times as there is teams is realitively arbitarary, so  this could be changed.
         srand(time(NULL)+i);
         int random1 = rand()%numTeams;
         Placeholder = teams[random1];
@@ -278,11 +284,11 @@ void Bracket::RandomizeStartingPositions()
         {
             if(teams[random1] == NULL)
             {
-                cout << "Swapping teams: " << "Empty" << " and " << teams[random2]->teamName << endl;
+                //cout << "Swapping teams: " << "Empty" << " and " << teams[random2]->teamName << endl;
             }else if(teams[random2] == NULL){
-                cout << "Swapping teams: " << teams[random1]->teamName << " and " << "Empty" << endl;
+                //cout << "Swapping teams: " << teams[random1]->teamName << " and " << "Empty" << endl;
             }else{
-                cout << "Swapping teams: " << teams[random1]->teamName << " and " << teams[random2]->teamName << endl;
+                //cout << "Swapping teams: " << teams[random1]->teamName << " and " << teams[random2]->teamName << endl;
             }
 
             if(teams[random1]->currentMatch->leftTeam == teams[random1])
@@ -328,15 +334,15 @@ void Bracket::teamPlacementNoNames()
     {
         if(x%2 == 0)
         {
-            cout << "Assigning Match " << numPrelims-matchCounter << endl;
+            //cout << "Assigning Match " << numPrelims-matchCounter << endl;
            // cout << teams[numTeams-x-1] << endl;
             matches[numPrelims-matchCounter]->leftTeam = teams[numTeams-x-1];
-            cout << "Left Team:" << teams[numTeams-x-1]->seedRank << endl;
+            //cout << "Left Team:" << teams[numTeams-x-1]->seedRank << endl;
             teams[numTeams-x-1]->currentMatch = matches[numPrelims-matchCounter];
         }else{
-            cout << "else" << endl;
+            //cout << "else" << endl;
             matches[numPrelims-matchCounter]->rightTeam = teams[numTeams-x-1];
-            cout << "Right Team:" << teams[numTeams-x-1]->seedRank << endl;
+            //cout << "Right Team:" << teams[numTeams-x-1]->seedRank << endl;
             teams[numTeams-x-1]->currentMatch = matches[numPrelims-matchCounter];
             matchCounter++;
         }
@@ -347,6 +353,7 @@ void Bracket::teamPlacementNoNames()
 
 void Bracket::teamPlacementNames(string fileName)
 {
+    //Creates each team and assigns them to their starting location before randomization happens.
     teams.resize(numTeams);
     fstream file;
     file.open(fileName.c_str());
@@ -399,6 +406,7 @@ void Bracket::BFCreateMatches(int Teams, int topLevel)
     matches[Teams-2]->matchNumber = Teams-counter;
     counter++;
     Queue.push_back(matches[Teams-2]);
+    //breadth first placement coming up!
     while(Queue.size() != 0)
     {
         matchData* u = Queue.front();
@@ -520,7 +528,7 @@ void Bracket::printTeams()
         cout << "Seed: " << teams[i]->seedRank << endl;
         if(teams[i]->currentMatch->Winner == NULL)
         {
-            cout << "STATUS: Still In" << endl;
+            cout << "STATUS: IN" << endl;
             cout << "Next Match: " << teams[i]->currentMatch->matchNumber << endl;
             cout << "Round: " << teams[i]->currentMatch->round << endl;
         }else if(teams[i]->currentMatch->Winner == teams[i]){

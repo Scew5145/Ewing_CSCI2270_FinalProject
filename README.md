@@ -1,5 +1,11 @@
 # CSCI2270 Final Project 
 This Project is designed to create a randomly seeded competition bracket. All public methods are documented here. Feel free to bother me with questions if you need help understanding some part of my code that I didn't properly comment.
+#How to Install
+Compile the main.cpp, Bracket.cpp, and Bracket.h files together. testFile.txt is just an example file for the type of file the program will correctly read. There are no command line arguments, so everything should run as is.
+
+#Dependencies
+None.
+
 #Public Functions
 Constructors:
 

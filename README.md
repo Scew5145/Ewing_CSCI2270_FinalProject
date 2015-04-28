@@ -1,11 +1,5 @@
 # CSCI2270 Final Project 
 This Project is designed to create a randomly seeded competition bracket. All public methods are documented here. Feel free to bother me with questions if you need help understanding some part of my code that I didn't properly comment.
-#How to Install
-Compile the main.cpp, Bracket.cpp, and Bracket.h files together. testFile.txt is just an example file for the type of file the program will correctly read. There are no command line arguments, so everything should run as is.
-
-#Dependencies
-None.
-
 #Public Functions
 Constructors:
 
@@ -14,9 +8,11 @@ Constructors:
     
   Bracket(numberTeams);
     Constructs the Bracket with default team names of the specified size. Team names will be integers starting at 1 and ending and the number of teams. Seeds will be the Same. Bracket size will always be equal to 2^(finals round)-1 and matches will always be numbered in the following order:
+
           7           Finals (round 3)
        5      6       Semi-Finals (round 2)
      1   2  3   4     Prelims (round 1)
+
 The "brackets" vector is always initialized the same way so that the match number is 1 greater than the index in the array.
 The "teams" vector is always in order of the team's first match; teams[0] and teams[1] will always be in match 1 to start, teams[2] and teams[3] will always be in match 2, etc.
 

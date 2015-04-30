@@ -65,7 +65,7 @@ void Bracket::UpdateWins()
                 }
                 if(matches[i]->winnerMatch!= NULL)
                 {
-                    if(matches[i]->winnerMatch->leftMatch = matches[i])
+                    if(matches[i]->winnerMatch->leftMatch == matches[i])
                     {
                         matches[i]->winnerMatch->leftTeam = matches[i]->Winner;
                     }else{
@@ -78,7 +78,7 @@ void Bracket::UpdateWins()
                 matches[i]->leftTeam->currentMatch = matches[i]->winnerMatch;
                 if(matches[i]->winnerMatch!= NULL)
                 {
-                    if(matches[i]->winnerMatch->leftMatch = matches[i])
+                    if(matches[i]->winnerMatch->leftMatch == matches[i])
                     {
                         matches[i]->winnerMatch->leftTeam = matches[i]->Winner;
                     }else{

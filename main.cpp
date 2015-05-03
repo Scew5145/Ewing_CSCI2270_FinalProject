@@ -78,9 +78,20 @@ int main()
         }else if(input == 6){
             if(bracketBuilt == false)
             {
+                int input2;
+            
                 cout << "Enter number of teams: " << endl;
-                getline(cin, rawInput2);
-                newBracket = new Bracket(atoi(rawInput2.c_str()));
+                cin>>input2;
+                  while(cin.fail())
+                    {
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                        cout << "Bad entry.  Enter a NUMBER: ";
+                        cin >> input2;
+                    }
+
+            
+                newBracket = new Bracket(input2);
                 bracketBuilt = true;
             }else{
                 cout << "bracket already built. Please clear current bracket before building a new one." << endl;
